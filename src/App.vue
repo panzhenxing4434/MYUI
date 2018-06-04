@@ -1,13 +1,15 @@
 <template>
   <div id="app">
     <!--HelloWorld/>-->
-    <z-icon name="icon-QQ" size="24px">77777</z-icon>
+    <z-icon name="fa fa-address-book" size="24px" ></z-icon>
+
+
   </div>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld'
-import {ZIcon} from "./zMeUi/ZIcon";
+import {ZIcon} from "./zMeUi/ZUI";
 
 export default {
   name: 'App',
