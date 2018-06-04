@@ -1,0 +1,157 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?yivkoq');
+  src:  url('fonts/icomoon.eot?yivkoq#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?yivkoq') format('truetype'),
+    url('fonts/icomoon.woff?yivkoq') format('woff'),
+    url('fonts/icomoon.svg?yivkoq#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-payment:before {
+  content: "\e91d";
+  color: #01bf71;
+}
+.icon-menu:before {
+  content: "\e91c";
+  color: #e6e6e6;
+}
+.icon-h-add:before {
+  content: "\e91b";
+}
+.icon-h-classlist:before {
+  content: "\e91a";
+  color: #01bf71;
+}
+.icon-h-class:before {
+  content: "\e918";
+  color: #ff950b;
+}
+.icon-h-course:before {
+  content: "\e919";
+  color: #6ab3fd;
+}
+.icon-h-about .path1:before {
+  content: "\e904";
+  color: rgb(58, 58, 58);
+}
+.icon-h-about .path2:before {
+  content: "\e905";
+  margin-left: -1em;
+  color: rgb(255, 131, 17);
+}
+.icon-h-collection:before {
+  content: "\e906";
+  color: #ff4200;
+}
+.icon-h-my:before {
+  content: "\e907";
+}
+.icon-h-news .path1:before {
+  content: "\e908";
+  color: rgb(156, 214, 230);
+}
+.icon-h-news .path2:before {
+  content: "\e909";
+  margin-left: -1em;
+  color: rgb(61, 148, 227);
+}
+.icon-h-news .path3:before {
+  content: "\e90a";
+  margin-left: -1em;
+  color: rgb(61, 149, 229);
+}
+.icon-h-Personal .path1:before {
+  content: "\e90b";
+  color: rgb(255, 192, 169);
+}
+.icon-h-Personal .path2:before {
+  content: "\e90c";
+  margin-left: -1.109375em;
+  color: rgb(73, 59, 78);
+}
+.icon-h-Personal .path3:before {
+  content: "\e90d";
+  margin-left: -1.109375em;
+  color: rgb(73, 59, 78);
+}
+.icon-h-Personal .path4:before {
+  content: "\e90e";
+  margin-left: -1.109375em;
+  color: rgb(255, 192, 169);
+}
+.icon-h-Personal .path5:before {
+  content: "\e90f";
+  margin-left: -1.109375em;
+  color: rgb(73, 59, 78);
+}
+.icon-h-question .path1:before {
+  content: "\e910";
+  color: rgb(117, 206, 197);
+}
+.icon-h-question .path2:before {
+  content: "\e911";
+  margin-left: -1em;
+  color: rgb(63, 177, 180);
+}
+.icon-h-question .path3:before {
+  content: "\e912";
+  margin-left: -1em;
+  color: rgb(117, 206, 197);
+}
+.icon-h-user .path1:before {
+  content: "\e913";
+  color: rgb(249, 244, 85);
+}
+.icon-h-user .path2:before {
+  content: "\e914";
+  margin-left: -1em;
+  color: rgb(249, 244, 85);
+}
+.icon-h-user .path3:before {
+  content: "\e915";
+  margin-left: -1em;
+  color: rgb(0, 0, 0);
+}
+.icon-h-user .path4:before {
+  content: "\e916";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.icon-h-user .path5:before {
+  content: "\e917";
+  margin-left: -1em;
+  color: rgb(255, 151, 2);
+}
+.icon-friend:before {
+  content: "\e900";
+  color: #01bf71;
+}
+.icon-QQ:before {
+  content: "\e901";
+  color: #30a5dd;
+}
+.icon-weibo:before {
+  content: "\e902";
+  color: #d94945;
+}
+.icon-weixin:before {
+  content: "\e903";
+  color: #83c14b;
+}
