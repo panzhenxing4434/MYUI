@@ -2,7 +2,7 @@
   <div id="app">
     <!--HelloWorld/>-->
     <z-icon name="fa fa-address-book" title="" /><br><br>
-    <z-btn icon="fa fa-address-book" color="me" title="按钮" flat class="ripple" />
+    <z-btn icon="fa fa-address-book" color="me" title="按钮" flat class="ripple" @click="myClick" /><br><br>
   </div>
 </template>
 
@@ -15,6 +15,11 @@ export default {
     HelloWorld,
     ZIcon,
     ZBtn,
+  },
+  methods:{
+    myClick(){
+      console.log(77777777);
+    }
   }
 }
 </script>

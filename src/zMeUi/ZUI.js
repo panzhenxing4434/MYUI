@@ -38,7 +38,10 @@ const ZIcon = {
 }
 
 
-
+/**
+ *
+ * 按钮
+ */
 const ZBtn = {
   name: "ZBtn",
   props: {
@@ -61,7 +64,7 @@ const ZBtn = {
   },
   methods: {
     click(e) {
-      console.log(e)
+      this.$emit("click",e);
     }
   },
   render(h) {
@@ -75,4 +78,9 @@ const ZBtn = {
   }
 
 }
+
+
+
+
+
 export {ZIcon, ZBtn}
