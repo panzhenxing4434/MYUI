@@ -3,6 +3,7 @@
 
 import Vue from 'vue'
 import App from './App'
+import './assets/css/allCss.css'
 import './assets/style.css'
 import './assets/font-awesome-4.7.0/css/font-awesome.css'
 //require(`src/assets/style.css`)

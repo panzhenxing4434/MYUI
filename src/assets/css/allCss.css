@@ -1,0 +1,29 @@
+
+
+.z-icon{
+  font-size: 1.5em;
+  padding: 0.2em;
+}
+.z-btn{
+  position: relative;
+  min-height: 2.572em;
+  box-sizing: border-box;
+  border:1px solid;
+  outline:0;
+  font-size: 16px;
+  color: inherit;
+  background:transparent;
+  border-radius: 0.1em;
+}
+
+#myCanvas{
+  position: absolute;
+  box-sizing: border-box;
+  opacity: 0.25;
+  padding: 0;
+  margin: 0;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
