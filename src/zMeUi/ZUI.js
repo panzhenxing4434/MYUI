@@ -219,4 +219,4 @@ const ZCheckbox = {
 }
 
 
-export {ZIcon, ZBtn, ZAlert, ZCheckbox}
+export {ZIcon, ZBtn, ZAlert, ZCheckbox,ZCanvas}
