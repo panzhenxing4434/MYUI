@@ -1,5 +1,4 @@
 
-
 .z-icon{
   font-size: 1.5em;
   padding: 0.2em;
@@ -13,10 +12,45 @@
   font-size: 16px;
   color: inherit;
   background:transparent;
-  border-radius: 0.1em;
+  border-radius: 0.2em;
 }
-
-#myCanvas{
+/**
+alert
+ */
+.z-alert{
+  width: 100%;
+  position: fixed;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;;
+  align-items: stretch;
+  min-height: 45px!important;
+  max-height: 65px!important;
+  transition-duration: 0.8s;
+}
+.z-alert .z-icon{
+  font-size: 2em;
+}
+.alert-div{
+  min-height: 45px;
+  max-height: 65px;
+}
+.alert-content{
+  min-height: 100%;
+  padding: 0 0.5em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.minMax{
+  min-height: 45px;
+  max-height: 65px;
+}
+/**
+canvas
+ */
+.myCanvas{
   position: absolute;
   box-sizing: border-box;
   opacity: 0.25;
@@ -26,4 +60,91 @@
   top: 0;
   width: 100%;
   height: 100%;
+}
+.r-Canvas{
+  border-radius: 50%;
+}
+/**
+长方形的jiao
+ */
+.rectangle-radius{
+  border-radius: 0.2em ;
+}
+/**
+checkbox
+ */
+.z-Checkbox{
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+.input-Checkbox{
+  height: 1em;
+  width: 1em;
+  margin: 0.2em;
+  box-sizing: border-box;
+  border-radius: 0.1em;
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.input-Checkbox .Checkbox{
+  display: none!important;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+
+}
+
+
+.input-Checkbox .z-icon{
+  transition-duration: 0.5s;
+  left: 0;
+}
+
+
+/**
+bg color
+ */
+.danger-hbg{
+  background-color: #dc3545;
+}
+.danger-cbg{
+  background-color: #ff4200;
+}
+
+.info-hbg{
+  background-color: #17a2b8;
+}
+.info-cbg{
+  background-color: rgba(23,162,184,0.8);
+}
+
+.success-hbg{
+  background-color: #28a745;
+}
+.success-cbg{
+  background-color: rgba(40,167,69,0.8);
+}
+
+.warning-hbg{
+  background-color: #ffc107;
+}
+.warning-cbg{
+  background-color: rgba(255,193,7,0.8);
+}
+
+/*
+position as
+ */
+
+.position-absolute{
+  position: absolute;
+}
+.no-padding{
+  padding: 0;
 }

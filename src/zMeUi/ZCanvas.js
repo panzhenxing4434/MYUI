@@ -1,6 +1,10 @@
 const ZCanvas = {
   name: 'ZCanvas',
-  props: {},
+  props: {
+    speed:Number,
+    cClass:String,
+    sedColor:String,
+  },
   data() {
     return {
       element: null,
@@ -9,6 +13,11 @@ const ZCanvas = {
       centerY: null,
       radius: null,
       color: null,
+    }
+  },
+  computed:{
+    classes(){
+      return this.cClass !=null ? this.cClass : "";
     }
   },
   methods: {
@@ -27,13 +36,13 @@ const ZCanvas = {
       this.context.clearRect(0, 0, this.element.width, this.element.height);
       this.context.beginPath();
       this.context.arc(this.centerX,this.centerY, this.radius, 0, 2 * Math.PI);
-      this.context.fillStyle = this.color;
+      this.context.fillStyle = this.sedColor!=null ? this.sedColor:this.color;
       this.context.fill();
       let self =this;
       new Promise(function (resolve, reject) {
         if (self.radius < self.element.width) {
            setTimeout(() => {
-              self.radius += 3.5;
+              self.radius += self.speed;
               resolve()
             }, 1000 / 60);
 
