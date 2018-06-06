@@ -9,7 +9,7 @@
     <z-checkbox v-model="message" val="选择框1" @change="myClick2" color="#42b983" title="选择框1"></z-checkbox>
     <z-checkbox v-model="message" val="选择框2" @change="myClick2" color="#83c14b" title="选择框2"></z-checkbox>
     <z-checkbox v-model="message" val="选择框3" @change="myClick2" color="#83c14b" title="选择框3"></z-checkbox><br><br>
-    <z-canvas speed="3.2" sedColor="#83c14b"></z-canvas>
+    <z-canvas :speed="mySpeed" sedColor="#83c14b"></z-canvas>
   </div>
 </template>
 
@@ -29,6 +29,7 @@ export default {
   },
   data(){
     return{
+      mySpeed:3.2,
       message:["选择框1","选择框2","选择框3"]
     }
   },
