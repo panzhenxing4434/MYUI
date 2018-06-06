@@ -14,7 +14,8 @@
 # z-checkbox
 <z-checkbox v-model="message" val="选择框1" @change="myClick2" color="#42b983" title="选择框1"></z-checkbox>
 # ZCanvas
-<z-canvas speed="3.2" sedColor="#83c14b"></z-canvas>
+<z-canvas speed="mySpeed" sedColor="#83c14b"></z-canvas>
+mySpeed is number
 ```
 
 
