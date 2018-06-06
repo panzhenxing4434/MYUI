@@ -1,26 +1,43 @@
 <template>
   <div id="app">
     <!--HelloWorld/>-->
-    <z-icon name="fa fa-address-book" title="" /><br><br>
-    <z-btn icon="fa fa-address-book" color="me" title="按钮" flat class="ripple" @click="myClick" /><br><br>
+    <z-icon name="check-square-o" title="" /><br><br>
+    <z-btn icon="address-book" color="me" title="按钮" flat  @click="myClick" /><br><br>
+    <z-btn icon="address-book" color="me" title="按钮2" flat  @click="myClick2" /><br><br>
+    <z-alert ref="myalert"  type="warning" color="white" title="您的操作失误！" />
+    <z-alert ref="myalert2"  type="info" color="white" title="您的操作正确！" />
+    <z-checkbox v-model="message" val="选择框1" @change="myClick2" color="#42b983" title="选择框1"></z-checkbox>
+    <z-checkbox v-model="message" val="选择框2" @change="myClick2" color="#83c14b" title="选择框2"></z-checkbox>
+    <z-checkbox v-model="message" val="选择框3" @change="myClick2" color="#83c14b" title="选择框3"></z-checkbox><br><br>
   </div>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld'
-import {ZIcon,ZBtn} from "./zMeUi/ZUI";
+import {ZIcon,ZBtn,ZAlert,ZCheckbox} from "./zMeUi/ZUI";
 export default {
   name: 'App',
   components: {
     HelloWorld,
     ZIcon,
     ZBtn,
+    ZAlert,
+    ZCheckbox
+  },
+  data(){
+    return{
+      message:["选择框1","选择框2","选择框3"]
+    }
   },
   methods:{
     myClick(){
-      console.log(77777777);
+     this.$refs.myalert.showAlert(3000);
+    },
+    myClick2(){
+      this.$refs.myalert2.showAlert(3000);
     }
-  }
+  },
+
 }
 </script>
 
@@ -32,6 +49,6 @@ export default {
     color: #83c14b;
   }
   .bg-me{
-    background: wheat;
+    background: #42b983;
   }
 </style>
