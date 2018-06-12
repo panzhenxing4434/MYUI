@@ -1,4 +1,5 @@
 import ZCanvas from './ZCanvas'
+import utils from './utils'
 
 /**
  *
@@ -20,9 +21,14 @@ const ZIcon = {
       return this.title != "" && this.title != null ? this.title : "";
     },
     style() {
+      let myStyle = {}
       if (this.size) {
-        return {fontSize: this.size}
+        myStyle.fontSize = this.size
       }
+      if (this.color) {
+        myStyle.color = this.color;
+      }
+      return myStyle;
     }
   },
   render(h) {
@@ -157,17 +163,17 @@ const ZCheckbox = {
     disable: Boolean,
     value: Array,
     val: String,
-    color:String,
-    title:String
+    color: String,
+    title: String
   },
   data() {
     return {
-      checkToggle: this.value.includes(this.val)? true:false
+      checkToggle: this.value.includes(this.val) ? true : false
     }
   },
   computed: {
     isCheck() {
-      return this.value.includes(this.val) ? {opacity: 1,color:this.color} : {opacity: 0,color:this.color}
+      return this.value.includes(this.val) ? {opacity: 1, color: this.color} : {opacity: 0, color: this.color}
     }
   },
   methods: {
@@ -176,14 +182,14 @@ const ZCheckbox = {
         return
       }
       this.checkToggle = !this.checkToggle
-      let myVal=this.value;
+      let myVal = this.value;
       if (this.checkToggle) {
         if (!myVal.includes(this.val)) {
           myVal.push(this.val);
         }
       } else {
         if (this.value.includes(this.val)) {
-          myVal= myVal.filter(v => {
+          myVal = myVal.filter(v => {
             return v != this.val;
           })
         }
@@ -212,11 +218,239 @@ const ZCheckbox = {
         staticClass: "Checkbox",
         attrs: {type: "checkbox", value: this.val, checked: this.checkToggle},
       }),
-      h(ZCanvas, {props: {speed: 1,sedColor:this.color}})
-    ]),h("span",{on:{click:this.toggle}},this.title)])
+      h(ZCanvas, {props: {speed: 1, sedColor: this.color}})
+    ]), h("span", {on: {click: this.toggle}}, this.title)])
   }
 
 }
 
 
-export {ZIcon, ZBtn, ZAlert, ZCheckbox,ZCanvas}
+/**
+ * radio
+ * @type {{}}
+ */
+const ZRadio = {
+  name: "ZRadio",
+  props: {
+    value: String,
+    val: String,
+    title: String,
+    color: String
+  },
+  methods: {
+    radioChange(event) {
+      if (event.target !== event.currentTarget) return
+      console.log(777777)
+      this.$emit("input", this.val)
+    },
+    clickCanvas() {
+      document.getElementById("z" + this.val).click();
+    }
+  },
+  computed: {
+    isChecked() {
+      return this.value != null && this.value == this.val ? "select" : false;
+    },
+    changeStyle() {
+      return this.value == this.val ? {"border-color": this.color, "background-color": this.color} : {}
+    }
+  },
+  render(h) {
+    return h("label", {
+      staticClass: "z-Radio",
+    }, [
+      h("input", {
+        attrs: {id: this.val, hidden: "hidden", type: "radio", checked: this.isChecked, value: this.val}
+      }),
+      h("div", {on: {click: this.radioChange}}, [h("label", {
+        on: {click: this.radioChange},
+        attrs: {for: this.val},
+        style: this.changeStyle
+      }),
+        h(ZCanvas,
+          {
+            attrs: {
+              id: "z" + this.val
+            },
+            props: {
+              clickOn: this.radioChange,
+              speed: 1,
+              sedColor: this.color,
+              bool: true,
+              canStyle: "50%"
+            }
+          })]),
+      h("span", {on: {click: this.clickCanvas}}, this.title)
+    ])
+  }
+
+}
+
+/**
+ * 轮播图
+ */
+const ZShuffling = {
+  name: "ZShuffling",
+  props: {
+    ary: Array,
+    action: String,
+  },
+  data() {
+    return {
+      imgTransition: [],
+      bool: false,
+      time: null,
+      id:null
+    }
+  },
+  created() {
+    if (this.ary.length > 0) {
+      for (let item in this.ary) {
+        this.imgTransition.push(item * -100);
+      }
+    }
+
+    this.id = utils.guid()
+    if (this.$attrs.autoplay != null) {
+      this.startTask()
+    }
+
+  },
+  beforeDestroy() {
+    this.clearTime()
+  },
+  computed: {
+    computedImg() {
+      const imgAry = [];
+      if (this.ary.length > 0) {
+        let firstItem = this.ary[this.ary.length - 1];
+        if (typeof(firstItem) == "object") {
+          imgAry.push(item.src)
+        } else {
+          imgAry.push(firstItem)
+        }
+
+        for (let item of  this.ary) {
+          if (typeof(item) == "object") {
+            imgAry.push(item.src)
+          } else {
+            imgAry.push(item)
+          }
+        }
+        if (typeof(firstItem) == "object") {
+          imgAry.push(this.ary[0].src)
+        } else {
+          imgAry.push(this.ary[0])
+        }
+
+      }
+      this.imgTransition = imgAry;
+      return imgAry;
+    }
+  },
+  methods: {
+    clearTime(){
+      clearInterval(this.time);
+    },
+    startTask() {
+      let vSpeed = 5000;
+      if (this.$attrs.speed != null && this.$attrs.speed != "") {
+        vSpeed = this.$attrs.speed;
+      }
+      this.time = setInterval(() => {
+       document.getElementById(this.id).click()
+      }, vSpeed)
+    },
+    changes2(evt) {
+      if (this.bool) return;
+      let vNode = null;
+      if (event.target !== event.currentTarget) {
+        vNode = evt.srcElement.parentElement.parentElement.firstChild
+      }
+      if (this.ary.length <= 1) return;
+      if (vNode == null) {
+        vNode = evt.srcElement.parentElement.firstChild
+      }
+      let zNum = parseInt(this.getNum(vNode.style.transform)) + 100
+      vNode.style.transitionDuration = "0.65s"
+      vNode.style.transform = "translateX(" + zNum + "%)"
+      let self = this;
+      new Promise(function (resolve) {
+        self.bool = true;
+        setTimeout(() => {
+          resolve()
+        }, 650)
+      }).then(() => {
+        if (zNum == 0) {
+          vNode.style.transitionDuration = "0s"
+          vNode.style.transform = "translateX(-" + (this.ary.length) * 100 + "%)"
+        }
+        this.bool = false
+      })
+      this.$emit("change", this.imgTransition[zNum / -100])
+      this.clearTime()
+      this.startTask()
+    },
+    changes(evt) {
+      if (this.bool) return;
+      let vNode = null;
+      if (event.target !== event.currentTarget) {
+        vNode = evt.srcElement.parentElement.parentElement.firstChild
+      }
+      if (this.ary.length <= 1) return;
+      if (vNode == null) {
+        vNode = evt.srcElement.parentElement.firstChild
+      }
+      let zNum = this.getNum(vNode.style.transform) - 100
+      vNode.style.transitionDuration = "0.65s"
+      vNode.style.transform = "translateX(" + zNum + "%)"
+      let self = this;
+      new Promise(function (resolve) {
+        self.bool = true;
+        setTimeout(() => {
+          resolve()
+        }, 650)
+      }).then(() => {
+        if (zNum < this.ary.length * -100) {
+          vNode.style.transitionDuration = "0s"
+          vNode.style.transform = "translateX(-100%)"
+        }
+        this.bool = false
+      })
+      this.$emit("change", this.imgTransition[zNum / -100])
+      this.clearTime()
+      this.startTask()
+    },
+    getNum(str) {
+      let num = str.replace("translateX(", "").replace("%)", "")
+      return num == "" ? -100 : num
+    }
+  },
+  render(h) {
+    return h("div", {
+      staticClass: 'Z-Shuffling'
+    }, [
+      h("div", {
+        staticClass: "Shuffling-content"
+      }, this.computedImg.map(function (item) {
+        return h("div", {
+          staticClass: "Shuffling-imgContent",
+        }, [h("img", {
+          staticClass: "Shuffling-img",
+          domProps: {src: item}
+        })])
+      })),
+      h("div", {
+        staticClass: 'left-action',
+        on: {click: this.changes2}
+      }, [h(ZIcon, {props: {name: "angle-left", color: "white", size: "1.5em"}})]),
+      h("div", {
+        staticClass: "right-action",
+        attrs:{id:this.id},
+        on: {click: this.changes}
+      }, [h(ZIcon, {props: {name: "angle-right", color: "white", size: "1.5em"}})])
+    ])
+  }
+}
+//angle-right  domProps:{src:item }
+export {ZIcon, ZBtn, ZAlert, ZCheckbox, ZCanvas, ZRadio, ZShuffling}
