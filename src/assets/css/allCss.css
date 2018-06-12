@@ -1,23 +1,25 @@
 
-.z-icon{
+.z-icon {
   font-size: 1.5em;
   padding: 0.2em;
 }
-.z-btn{
+
+.z-btn {
   position: relative;
   min-height: 2.572em;
   box-sizing: border-box;
-  border:1px solid;
-  outline:0;
+  border: 1px solid;
+  outline: 0;
   font-size: 16px;
   color: inherit;
-  background:transparent;
+  background: transparent;
   border-radius: 0.2em;
 }
+
 /**
 alert
  */
-.z-alert{
+.z-alert {
   width: 100%;
   position: fixed;
   box-sizing: border-box;
@@ -25,32 +27,37 @@ alert
   flex-direction: row;
   justify-content: center;;
   align-items: stretch;
-  min-height: 45px!important;
-  max-height: 65px!important;
+  min-height: 45px !important;
+  max-height: 65px !important;
   transition-duration: 0.8s;
 }
-.z-alert .z-icon{
+
+.z-alert .z-icon {
   font-size: 2em;
 }
-.alert-div{
+
+.alert-div {
   min-height: 45px;
   max-height: 65px;
 }
-.alert-content{
+
+.alert-content {
   min-height: 100%;
   padding: 0 0.5em;
   display: flex;
   flex-direction: row;
   align-items: center;
 }
-.minMax{
+
+.minMax {
   min-height: 45px;
   max-height: 65px;
 }
+
 /**
 canvas
  */
-.myCanvas{
+.myCanvas {
   position: absolute;
   box-sizing: border-box;
   opacity: 0.25;
@@ -61,25 +68,29 @@ canvas
   width: 100%;
   height: 100%;
 }
-.r-Canvas{
+
+.r-Canvas {
   border-radius: 50%;
 }
+
 /**
 长方形的jiao
  */
-.rectangle-radius{
-  border-radius: 0.2em ;
+.rectangle-radius {
+  border-radius: 0.2em;
 }
+
 /**
 checkbox
  */
-.z-Checkbox{
+.z-Checkbox {
   position: relative;
   display: inline-flex;
   justify-content: center;
   align-items: center;
 }
-.input-Checkbox{
+
+.input-Checkbox {
   height: 1em;
   width: 1em;
   margin: 0.2em;
@@ -91,8 +102,9 @@ checkbox
   align-items: center;
   position: relative;
 }
-.input-Checkbox .Checkbox{
-  display: none!important;
+
+.input-Checkbox .Checkbox {
+  display: none !important;
   padding: 0;
   margin: 0;
   height: 100%;
@@ -100,51 +112,169 @@ checkbox
 
 }
 
-
-.input-Checkbox .z-icon{
+.input-Checkbox .z-icon {
   transition-duration: 0.5s;
   left: 0;
 }
 
+/**
+radio   font-size: 0;
+*/
+
+.z-Radio {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 1em;
+}
+
+.z-Radio span {
+  font-size: 16px;
+}
+
+.z-Radio input[type="radio"]:checked + div label {
+  background-clip: content-box;
+}
+
+.z-Radio div {
+  position: relative;
+  box-sizing: border-box;
+  border-radius: 50%;
+  z-index: 20;
+}
+
+.z-Radio div label {
+  width: 1em;
+  height: 1em;
+  box-sizing: border-box;
+  display: inline-block;
+  border: 1px solid;
+  border-radius: 50%;
+  padding: 0.1em;
+  margin: 0.5em;
+}
+
+/*
+  轮播组件的样式
+  =======================================================================
+ */
+.Z-Shuffling {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  border: 1px solid #ededed;
+  overflow: hidden;
+}
+
+.Shuffling-content {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  transform: translateX(-100%);
+}
+
+
+.Shuffling-content .Shuffling-imgContent {
+  height: 100%;
+  width: 100%;
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.left-action {
+  height: 40px;
+  width: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 0;
+  padding: 0.6em;
+  box-sizing: border-box;
+  border-radius: 50%;
+  background-color: DarkGray;
+  cursor: pointer;
+}
+
+.left-action:hover {
+  opacity: 0.8;
+}
+
+.right-action:hover {
+  opacity: 0.8;
+}
+
+.right-action {
+  height: 40px;
+  width: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 0;
+  padding: 0.6em;
+  box-sizing: border-box;
+  border-radius: 50%;
+  background-color: DarkGray;
+  cursor: pointer;
+}
 
 /**
 bg color
  */
-.danger-hbg{
+.danger-hbg {
   background-color: #dc3545;
 }
-.danger-cbg{
+
+.danger-cbg {
   background-color: #ff4200;
 }
 
-.info-hbg{
+.info-hbg {
   background-color: #17a2b8;
 }
-.info-cbg{
-  background-color: rgba(23,162,184,0.8);
+
+.info-cbg {
+  background-color: rgba(23, 162, 184, 0.8);
 }
 
-.success-hbg{
+.success-hbg {
   background-color: #28a745;
 }
-.success-cbg{
-  background-color: rgba(40,167,69,0.8);
+
+.success-cbg {
+  background-color: rgba(40, 167, 69, 0.8);
 }
 
-.warning-hbg{
+.warning-hbg {
   background-color: #ffc107;
 }
-.warning-cbg{
-  background-color: rgba(255,193,7,0.8);
+
+.warning-cbg {
+  background-color: rgba(255, 193, 7, 0.8);
 }
 
 /*
 position as
  */
 
-.position-absolute{
+.position-absolute {
   position: absolute;
 }
-.no-padding{
+
+.no-padding {
   padding: 0;
 }

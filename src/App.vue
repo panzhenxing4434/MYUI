@@ -9,13 +9,23 @@
     <z-checkbox v-model="message" val="选择框1" @change="myClick2" color="#42b983" title="选择框1"></z-checkbox>
     <z-checkbox v-model="message" val="选择框2" @change="myClick2" color="#83c14b" title="选择框2"></z-checkbox>
     <z-checkbox v-model="message" val="选择框3" @change="myClick2" color="#83c14b" title="选择框3"></z-checkbox><br><br>
-    <z-canvas :speed="mySpeed" sedColor="#83c14b"></z-canvas>
+    <!--<z-canvas :speed="mySpeed" sedColor="#83c14b"></z-canvas>-->
+    <z-radio v-model="pick" val="radio1" color="#42b983" title="单选框"></z-radio>
+    <z-radio v-model="pick" val="radio2" color="#83c14b" title="单选框2"></z-radio><br><br>
+    {{pick}}
+    <div style="height: 300px">
+      <z-shuffling :ary="ary" @change="myChange" autoplay speed="3000"></z-shuffling>
+    </div>
+    <div style="height: 300px">
+      <z-shuffling :ary="ary" @change="myChange"  autoplay speed="6000"></z-shuffling>
+    </div>
+
   </div>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld'
-import {ZIcon,ZBtn,ZAlert,ZCheckbox,ZCanvas} from "./zMeUi/ZUI";
+import {ZIcon,ZBtn,ZAlert,ZCheckbox,ZCanvas,ZRadio,ZShuffling} from "./zMeUi/ZUI";
 
 export default {
   name: 'App',
@@ -25,15 +35,28 @@ export default {
     ZBtn,
     ZAlert,
     ZCheckbox,
-    ZCanvas
+    ZCanvas,
+    ZRadio,
+    ZShuffling
   },
   data(){
     return{
       mySpeed:3.2,
-      message:["选择框1","选择框2","选择框3"]
+      pick:"",
+      bool:true,
+      message:["选择框1","选择框2","选择框3"],
+      ary:["http://img2.imgtn.bdimg.com/it/u=3588772980,2454248748&fm=27&gp=0.jpg","https://www.baidu.com/img/bd_logo1.png","http://img4.imgtn.bdimg.com/it/u=1972873509,2904368741&fm=27&gp=0.jpg"]
     }
   },
+  created(){
+
+  },
   methods:{
+    myChange(src){
+      console.log("改变图片了")
+      console.log(src)
+      this.bool =false;
+    },
     myClick(){
      this.$refs.myalert.showAlert(3000);
     },
