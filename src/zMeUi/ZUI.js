@@ -728,9 +728,12 @@ const ZCollapsible = {
       icon: 'caret-left'
     }
   },
+  created(){
+    this.id = utils.guid();
+  },
   mounted(){
     this.$nextTick().then(() => {
-      let sty = window.getComputedStyle(this.$el)
+      let sty = window.getComputedStyle(document.getElementById(this.id))
       this.height = sty.height;
       this.width = sty.width;
       if(this.width.replace('px','') > this.minWidth){
@@ -765,6 +768,7 @@ const ZCollapsible = {
         ), h('div', {
           staticClass: 'merger-Closed-Content',
           style: _c.cStyle,
+          attrs:{id:this.id}
         }, _c.$slots.default)])
       }else if(_c.width !='' && wd >_c.minWidth){
         obj = h('div', {
@@ -779,6 +783,7 @@ const ZCollapsible = {
         ), h('div', {
           staticClass: 'merger-Closed-Content',
           style: _c.cStyle,
+          attrs:{id:this.id}
         }, _c.$slots.default)])
       }else{
         obj = h('div', {
@@ -809,7 +814,6 @@ const ZCollapsible = {
     },
     isClose() {
       let sd = this.bool;
-      console.log( this.width.replace('px','') )
       if(this.width.replace('px','') <= this.minWidth){
         this.$parent._allClose()
       }
