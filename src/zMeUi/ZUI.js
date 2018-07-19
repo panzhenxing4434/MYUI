@@ -15,7 +15,7 @@ const ZIcon = {
   },
   computed: {
     classes() {
-      return this.name != "" && this.name != null ? "fa fa-" + this.name : "";
+      return this.name != "" && this.name != null ? "fa fa-" + this.name : "z-hide";
     },
     content() {
       return this.title != "" && this.title != null ? this.title : "";
@@ -300,7 +300,7 @@ const ZShuffling = {
       imgTransition: [],
       bool: false,
       time: null,
-      id:null
+      id: null
     }
   },
   created() {
@@ -349,7 +349,7 @@ const ZShuffling = {
     }
   },
   methods: {
-    clearTime(){
+    clearTime() {
       clearInterval(this.time);
     },
     startTask() {
@@ -358,7 +358,7 @@ const ZShuffling = {
         vSpeed = this.$attrs.speed;
       }
       this.time = setInterval(() => {
-       document.getElementById(this.id).click()
+        document.getElementById(this.id).click()
       }, vSpeed)
     },
     changes2(evt) {
@@ -446,11 +446,504 @@ const ZShuffling = {
       }, [h(ZIcon, {props: {name: "angle-left", color: "white", size: "1.5em"}})]),
       h("div", {
         staticClass: "right-action",
-        attrs:{id:this.id},
+        attrs: {id: this.id},
         on: {click: this.changes}
       }, [h(ZIcon, {props: {name: "angle-right", color: "white", size: "1.5em"}})])
     ])
   }
 }
 //angle-right  domProps:{src:item }
-export {ZIcon, ZBtn, ZAlert, ZCheckbox, ZCanvas, ZRadio, ZShuffling}
+
+//tab 标签
+const ZTabs = {
+  name: "ZTabs",
+  props: {
+    tabs: Array,
+    color: String,
+    action: String,
+    speed: {
+      type: Number,
+      default: 10
+    }
+  },
+  data() {
+    return {
+      averageWidth: 100 / this.tabs.length,
+      slidingWidth: "",
+      trueWidth: "",
+      actionTab: null,
+      canvasColor: String,
+      name: utils.guid()
+    }
+  },
+  created() {
+    this.actionTab = this.tabs.length > 0 ? this.tabs[0] : ''
+    this.$nextTick().then(() => {
+      let tabAry = document.getElementsByName(this.name);
+      if (tabAry[0].firstChild) {
+        tabAry[0].firstChild.click()
+      }
+    })
+  },
+  computed: {
+    changeStyle() {
+      return this.color != null && this.color != '' ? {"color": this.color + '!important'} : {}
+    },
+    slidingStyle() {
+      if (this.tabs.length == 0) return {};
+      let wd = this.slidingWidth.substring(0, 2) / 2 + "px";
+      let clr = this.action != null && this.action != '' ? this.action : this.color;
+      if (!clr) {
+        clr = "#000000"
+      }
+      return {
+        "width": this.slidingWidth,
+        'left': 'calc(' + this.trueWidth + ' - ' + wd + ')',
+        'background-color': clr
+      }
+    }
+  },
+  methods: {
+    zTabStyle(item) {
+      let width = this.tabs.length > 0 ? 100 / this.tabs.length + "%" : ''
+      return item.label == this.actionTab.label && item.value == this.actionTab.value ? {
+        "width": width,
+        color: this.action
+      } : {"width": width}
+    },
+    zTabClick(event) {
+      let ele = event.srcElement.nextSibling;
+      let eleStyle = window.getComputedStyle(ele);
+      this.slidingWidth = eleStyle.width;
+      let label = ele.innerText;
+      let num = 0;
+      for (let item of this.tabs) {
+        if (item.label == label) {
+          this.actionTab = item;
+          break;
+        }
+        num += 1;
+      }
+      this.$emit("change", this.actionTab);
+      this.trueWidth = num * this.averageWidth + 100 / (this.tabs.length * 2) + "%";
+    }
+  },
+  render(h) {
+    let self = this;
+    return h("div", {
+      staticClass: 'z-tabs',
+      style: this.changeStyle
+    }, [this.tabs.map(function (item) {
+      return h('div', {
+        staticClass: 'z-tab',
+        attrs: {name: self.name},
+        style: self.zTabStyle(item),
+        on: {click: self.zTabClick},
+      }, [h(ZCanvas, {props: {speed: self.speed, sedColor: self.canvasColor()}}), h('span', item.label)])
+    }), h('span', {
+      staticClass: 'z-tabs-sliding',
+      style: this.slidingStyle
+    })]);
+
+  }
+}
+
+const ZLayout = {
+  name: "ZLayout",
+  props: {},
+  data() {
+    return {
+      showRightMenu: false,
+      isBigMneu:true
+    }
+  },
+  computed: {
+    rightSide() {
+      let menuStyle = JSON.parse(this.$slots.rightMenu[0].data.attrs.menuStyle)
+      let w = this.$slots.rightMenu[0].data.attrs.width
+      w = w ? {'width': w, 'right': '-' + w} : {'width': '200px', 'right': '-200px'}
+      if (this.showRightMenu) {
+        w.right = '0'
+        return menuStyle ? Object.assign(w, menuStyle) : w
+      } else {
+        return menuStyle ? Object.assign(w, menuStyle) : w
+      }
+    },
+    menuStyle(){
+      return this.isBigMneu ? {'width':'254px'}:{ 'width':'60px'}
+    }
+  },
+  methods: {
+    isShowRightMenu() {
+      this.showRightMenu = !this.showRightMenu
+    },
+    leftBig() {
+      this.isBigMneu =!this.isBigMneu
+      if(!this.$slots.menu[0]) return;
+      this.$slots.menu[0].children.forEach( key =>{
+        if(key.tag && key.componentOptions){
+          if(key.componentOptions.tag == 'z-collapsible-ground'){
+            key.child.setWidth(this.$slots.menu[0].elm)
+          }
+        }
+
+      })
+    }
+  },
+  render(h) {
+    let _c = this;
+    return h('div', {
+      staticClass: "z-layout"
+    }, [
+      h('div', {
+        staticClass: 'z-layout-let',
+        style:_c.menuStyle
+      }, _c.$slots.menu),
+      h('div', {
+        staticClass: 'z-layout-rig'
+      }, [
+        h('div', {staticClass: 'rig-top'}, _c.$slots.header),
+        h('div', {staticClass: 'rig-center'}, _c.$slots.content),
+        _c.$slots.rightMenu ? h('div', {
+          staticClass: 'rig-Menu',
+          style: _c.rightSide
+        }, _c.$slots.rightMenu) : ''
+      ]),
+
+    ])
+  }
+}
+
+
+const ZList = {
+  name: 'ZList',
+  props: {
+    vList: Array
+  },
+  data() {
+    return {}
+  },
+  created() {
+  },
+  computed: {
+    itemCre() {
+      return this.vList.length > 0 ? this.vList : []
+    }
+
+  },
+  render(h) {
+    return h('div', {
+      staticClass: 'z-list'
+    }, this.itemCre.map(item => {
+
+      return h(listItem, {props: {obj: item}})
+    }))
+  }
+}
+
+
+const listItem = {
+  name: 'listItem',
+  props: {
+    obj: Object
+  },
+  data() {
+    return {}
+  },
+  methods: {
+    itemClick(val) {
+      return () => {
+        console.log(val)
+      }
+    }
+  },
+  render(h) {
+    let _c = this.obj;
+    let _o = this;
+    return h('div', {
+      staticClass: 'list-Item',
+      on: {click: _o.itemClick(_c.value)}
+    }, [h(ZIcon, {
+      staticClass: 'list-Item-icon',
+      style: {'min-width': '45px'},
+      props: {name: _c.icon, size: "24px"}
+    }), h('div', {staticClass: 'list-Item-content'}, [h('span', _c.label)])]);
+  }
+}
+
+
+const  ZCollapsibleGround ={
+  name:'ZCollapsibleGround',
+  props:{
+    minWidth:{
+      type:String,
+      default:'60px'
+    }
+  },
+  data(){
+    return{}
+  },
+  methods:{
+    setWidth(){
+      this.$slots.default.forEach( key =>{
+        if(key.tag && key.componentOptions.tag =='z-collapsible'){
+         key.child.setWidth(this.minWidth)
+
+        }
+      })
+    },
+    _allClose(){
+      this.$slots.default.forEach( key =>{
+        if(key.tag && key.componentOptions.tag =='z-collapsible'){
+           key.child.bool =false
+        }
+      })
+    }
+  },
+  render(h){
+    let _c =this
+    return h('div',_c.$slots.default)
+  }
+}
+
+const ZCollapsible = {
+  name: "ZCollapsible",
+  props: {
+    title: String,
+    leftIcon:String,
+    actionColor:Object,
+    minWidth:{
+      type:Number,
+      default:60
+    }
+  },
+  data() {
+    return {
+      big:true,
+      bool:false,
+      id: null,
+      height: '',
+      width:'',
+      sy:'',
+      icon: 'caret-left'
+    }
+  },
+  mounted(){
+    this.$nextTick().then(() => {
+      let sty = window.getComputedStyle(this.$el)
+      this.height = sty.height;
+      this.width = sty.width;
+      if(this.width.replace('px','') > this.minWidth){
+        this.bool =true
+      }
+    })
+  },
+  computed: {
+    cStyle() {
+      if (this.icon == 'caret-down') {
+        this.icon = 'caret-left'
+      } else {
+        this.icon = 'caret-down'
+      }
+      return this.bool ? {height: 0}:{height: this.height}
+    },
+    getEle(){
+      let obj=null;
+      let h = this.$createElement
+      let _c = this;
+      let wd = _c.width.replace('px','')
+      if(_c.width =='' ){
+        obj = h('div', {
+          staticClass: 'merger-Closed',
+          style:_c.mcStyle
+        }, [h('div', {
+            staticClass: 'merger-Closed-Title',
+            on: {click: this.isClose}
+          }, [ h('div',[_c.leftIcon ? h(ZIcon, {props: {name: _c.leftIcon, color: "gray"}}) : null,h('span',{
+            staticClass:'closed-Title'
+          },_c.title)]), h(ZIcon, {props: {name: _c.icon, color: "gray"}})]
+        ), h('div', {
+          staticClass: 'merger-Closed-Content',
+          style: _c.cStyle,
+        }, _c.$slots.default)])
+      }else if(_c.width !='' && wd >_c.minWidth){
+        obj = h('div', {
+          staticClass: 'merger-Closed',
+          style:_c.mcStyle
+        }, [h('div', {
+            staticClass: 'merger-Closed-Title',
+            on: {click: this.isClose}
+          }, [ h('div',[_c.leftIcon ? h(ZIcon, {props: {name: _c.leftIcon, color: "gray"}}) : null,h('span',{
+            staticClass:'closed-Title'
+          },_c.title)]), h(ZIcon, {props: {name: _c.icon, color: "gray"}})]
+        ), h('div', {
+          staticClass: 'merger-Closed-Content',
+          style: _c.cStyle,
+        }, _c.$slots.default)])
+      }else{
+        obj = h('div', {
+            staticClass: 'mcmin merger-Closed flexRCC  relative',
+            style: Object.assign(_c.mcStyle(),{height:_c.width}),
+            on: {click: this.isClose}
+          },[h('i', {staticClass: 'z-icon ' +  'fa fa-'+ _c.leftIcon,
+          style:_c.geCstyle()}),
+          this.bool ? h('div',{staticClass:'small-merger-Closed boder-solid',style:{top:0,left:_c.width}},_c.$slots.default):null])
+      }
+      return obj;
+    }
+  },
+  methods: {
+    geCstyle(){
+      return { 'display': 'flex', 'flex-direction': 'row', 'justify-content': 'center','align-items': 'center'}
+    },
+    mcStyle(){
+      return this.bool ?  this.actionColor:{}
+    },
+    setWidth(val){
+      if(this.width.replace('px','') <= val){
+        this.bool = false
+      }else {
+        this.bool = true
+      }
+      this.width = val;
+    },
+    isClose() {
+      let sd = this.bool;
+      console.log( this.width.replace('px','') )
+      if(this.width.replace('px','') <= this.minWidth){
+        this.$parent._allClose()
+      }
+      if(sd){
+        this.bool =false
+      }else {
+        this.bool = true
+      }
+    }
+  },
+  render(h) {
+    let _c = this;
+    return _c.getEle;
+  }
+}
+
+/*const ZHeader ={
+  name:"ZHeader",
+  props:{
+  },
+  data(){
+    return{}
+  },
+  render(h){
+    let _c =this;
+    return h('div',{
+      staticClass:'z-header'
+    },_c.$slots.default)
+  }
+}*/
+
+const ZDot = {
+  name: "ZDot",
+  props: {
+    color: String
+  },
+  data() {
+    return {}
+  },
+  computed: {
+    dotColor() {
+      return this.color != null && this.color != '' ? {'background-color': this.color} : {}
+    }
+  },
+  render(h) {
+    let _c = this;
+    return h('span', {
+      staticClass: 'z-dot',
+      style: _c.dotColor
+    }, _c.$slots.default)
+  }
+}
+
+const ZProps = {
+  name: 'ZProps',
+  props: {
+    title: String,
+    ftitle: String
+  },
+  data() {
+    return {
+      bool: false,
+      eleHeight: null
+    }
+  },
+  computed: {
+    isShow() {
+      return this.bool ? {'max-height': 'none', opacity: "1"} : {'max-height': '0px', opacity: "0"}
+    },
+    _getEle() {
+      let ary = []
+      if (this.title != null && this.title != '') {
+        ary.push(this.$createElement('span', {
+          staticClass: 'z-props-title props-border-bottom'
+        }, this.title))
+      }
+      ary.push(this.$createElement('div', {staticClass: 'z-props-title z-props-center'}, this.$slots.default))
+      if (this.ftitle != null && this.ftitle != '') {
+        ary.push(this.$createElement('span', {
+          staticClass: 'z-props-title props-border-top',
+        }, this.ftitle))
+      }
+      return ary;
+    }
+  },
+  created() {
+    let _c = this;
+    this.$nextTick().then(() => {
+      let ele = this.$el.parentElement;
+      ele.setAttribute('tabindex', _c._uid)
+      ele.onblur = (eve) => {
+        setTimeout(() => {
+          this.bool = false
+          ele.style.backgroundColor = ''
+        }, 150)
+      }
+    })
+  },
+  methods: {
+    showOrClose() {
+      this.bool = !this.bool
+      let ele = this.$el.parentElement
+      if (this.bool) {
+        ele.style.backgroundColor = '#7e57a2'
+      } else {
+        ele.style.backgroundColor = ''
+      }
+    }
+  },
+  render(h) {
+    let _c = this;
+    return h('div', {
+      staticClass: 'z-props',
+      style: _c.isShow,
+      attrs: {id: 'myprop'}
+    }, _c._getEle)
+  }
+}
+
+
+export {
+  ZIcon,
+  ZBtn,
+  ZAlert,
+  ZCheckbox,
+  ZCanvas,
+  ZRadio,
+  ZShuffling,
+  ZTabs,
+  ZLayout,
+  ZList,
+  listItem,
+  ZCollapsible,
+  ZDot,
+  ZProps,
+  ZCollapsibleGround
+}
